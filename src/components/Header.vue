@@ -1,3 +1,12 @@
+<script setup>
+import { useAuthStore } from '@/stores/auth';
+import { storeToRefs } from 'pinia';
+
+const {authenticated} = storeToRefs(useAuthStore());
+
+
+</script>
+
 <template>
     <nav class="bg-white border-gray-200 dark:bg-gray-900">
        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -19,27 +28,29 @@
              <li>
                <router-link to="/about" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">About</router-link>
              </li>
+             <template v-if="authenticated">
              <li>
                <router-link to="/dashboard" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Dashboard</router-link>
+             </li>
+              <button class="hover:text-gray-900"> Logout</button>
+            </template>
+            <template v-else>
+              <li>
+               <router-link to="/register" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Register</router-link>
              </li>
              <li>
                <router-link to="/login" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Login</router-link>
              </li>
-             <li>
-               <router-link to="/register" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Register</router-link>
-             </li>
+            </template>
+            
+             
            </ul>
          </div>
        </div>
     </nav>
  </template>
 
-<script>
-export default {
-
-}
-</script>
-
+ 
 <style>
 
 </style>

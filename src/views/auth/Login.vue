@@ -1,20 +1,23 @@
 <script setup>
+import {useAuthStore} from '@/stores/auth';
 import { reactive } from "vue";
+import { storeToRefs } from 'pinia';
 
+const store = useAuthStore();
+const {getErrors:errors} = storeToRefs(useAuthStore());
 
 const form = reactive({
   email:'',
   password:''
 })
-const handleLogin = () =>{
-    console.log("login");
-}
+ 
 
 </script>
 <template>
   <div class="mt-20">
-    <form @submit.prevent="handleLogin" class="max-w-md mx-auto bg-white p-10">
-      {{ form }}
+    <form @submit.prevent="store.login(form)" class="max-w-md mx-auto bg-white p-10">
+      <!-- {{ store.token}} | {{ store.user }} -->
+      
       <h1 class="text-center text-2xlpb-5">Login Page</h1>
       <div class="mb-5">
         <label
@@ -27,9 +30,9 @@ const handleLogin = () =>{
           id="email"
           v-model="form.email"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="name@flowbite.com"
-          required
+          placeholder="Write your email"
         />
+        <p v-if="errors.email" class="text-xs text-red-500">{{ errors.email[0] }}</p>
       </div>
       <div class="mb-5">
         <label
@@ -42,8 +45,9 @@ const handleLogin = () =>{
           id="password"
            v-model="form.password"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          required
+          placeholder="Write your password"
         />
+        <p v-if="errors.password" class="text-xs text-red-500">{{ errors.password[0] }}</p>
       </div>
       <div class="flex items-start mb-5">
         <div class="flex items-center h-5">
@@ -52,7 +56,6 @@ const handleLogin = () =>{
             type="checkbox"
             value=""
             class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
-            required
           />
         </div>
         <label
